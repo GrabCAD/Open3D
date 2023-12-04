@@ -142,8 +142,7 @@ def estimate_3D_transform_RANSAC(pts_xyz_s, pts_xyz_t):
     if n_points < n_sample:
         return False, np.identity(4), []
 
-    for i in range(max_iter):
-
+    for _ in range(max_iter):
         # sampling
         rand_idx = np.random.randint(n_points, size=n_sample)
         sample_xyz_s = pts_xyz_s[:,rand_idx]

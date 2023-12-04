@@ -21,7 +21,7 @@ def get_ply_path(dataset_name, id):
 
 
 def get_log_path(dataset_name):
-    return "%s/fgr_%s.log" % (dataset_path, dataset_name)
+    return f"{dataset_path}/fgr_{dataset_name}.log"
 
 dataset_path = 'testdata'
 dataset_names = ['livingroom1','livingroom2','office1','office2']
@@ -33,8 +33,7 @@ if __name__ == "__main__":
 
     # do RANSAC based alignment
     for dataset_name in dataset_names:
-        ply_file_names = get_file_list(
-                "%s/%s/" % (dataset_path, dataset_name), ".ply")
+        ply_file_names = get_file_list(f"{dataset_path}/{dataset_name}/", ".ply")
         n_ply_files = len(ply_file_names)
 
         alignment = []
@@ -42,6 +41,5 @@ if __name__ == "__main__":
             source = read_point_cloud(get_ply_path(dataset_name, s))
             source_down, source_fpfh = preprocess_point_cloud(
                     source, voxel_size)
-            f = open('store.pckl', 'wb')
-            pickle.dump([source_down, source_fpfh], f)
-            f.close()
+            with open('store.pckl', 'wb') as f:
+                pickle.dump([source_down, source_fpfh], f)

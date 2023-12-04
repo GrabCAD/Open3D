@@ -16,9 +16,9 @@ if __name__ == "__main__":
     path = "[path_to_reconstruction_system_output]"
     out_path = "[path_to_sampled_frames_are_located]"
     make_folder(out_path)
-    make_folder(out_path + "depth/")
-    make_folder(out_path + "image/")
-    make_folder(out_path + "scene/")
+    make_folder(f"{out_path}depth/")
+    make_folder(f"{out_path}image/")
+    make_folder(f"{out_path}scene/")
     sampling_rate = 30
 
     depth_image_path = get_file_list(
@@ -47,11 +47,14 @@ if __name__ == "__main__":
             traj.append(CameraPose(metadata, np.dot(
                     pose_graph_global.nodes[fragment_id].pose,
                     pose_graph_fragments[fragment_id].nodes[local_frame_id].pose)))
-            copyfile(depth_image_path[i], out_path + "depth/" + \
-                    os.path.basename(depth_image_path[i]))
-            copyfile(color_image_path[i], out_path + "image/" + \
-                    os.path.basename(color_image_path[i]))
+            copyfile(
+                depth_image_path[i],
+                f"{out_path}depth/{os.path.basename(depth_image_path[i])}",
+            )
+            copyfile(
+                color_image_path[i],
+                f"{out_path}image/{os.path.basename(color_image_path[i])}",
+            )
             cnt += 1
-    copyfile(path + "/scene/cropped.ply",
-            out_path + "/scene/integrated.ply")
-    write_trajectory(traj, out_path + "scene/key.log")
+    copyfile(f"{path}/scene/cropped.ply", f"{out_path}/scene/integrated.ply")
+    write_trajectory(traj, f"{out_path}scene/key.log")

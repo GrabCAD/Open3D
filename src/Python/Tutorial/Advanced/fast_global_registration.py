@@ -14,11 +14,15 @@ def execute_fast_global_registration(source_down, target_down,
     distance_threshold = voxel_size * 0.5
     print(":: Apply fast global registration with distance threshold %.3f" \
             % distance_threshold)
-    result = registration_fast_based_on_feature_matching(
-            source_down, target_down, source_fpfh, target_fpfh,
-            FastGlobalRegistrationOption(
-            maximum_correspondence_distance = distance_threshold))
-    return result
+    return registration_fast_based_on_feature_matching(
+        source_down,
+        target_down,
+        source_fpfh,
+        target_fpfh,
+        FastGlobalRegistrationOption(
+            maximum_correspondence_distance=distance_threshold
+        ),
+    )
 
 if __name__ == "__main__":
 

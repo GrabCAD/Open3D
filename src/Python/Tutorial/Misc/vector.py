@@ -23,7 +23,7 @@ if __name__ == "__main__":
     np.asarray(vi)[1] = 22
     vi1[0] *= 5
     vi2[0] += 1
-    vi3[0:2] = IntVector([40, 50])
+    vi3[:2] = IntVector([40, 50])
     print(vi)
     print(vi1)
     print(vi2)

@@ -43,7 +43,6 @@ def compute_initial_registration(s, t, source_down, target_down,
         transformation = np.linalg.inv(
                 pose_graph_frag.nodes[n_nodes-1].pose)
         print(pose_graph_frag.nodes[0].pose)
-        print(transformation)
     else: # loop closure case
         print("register_point_cloud_fpfh")
         (success_ransac, result_ransac) = register_point_cloud_fpfh(
@@ -54,8 +53,7 @@ def compute_initial_registration(s, t, source_down, target_down,
             return (False, np.identity(4))
         else:
             transformation = result_ransac.transformation
-        print(transformation)
-
+    print(transformation)
     if draw_result:
         draw_registration_result(source_down, target_down,
                 transformation)
@@ -111,9 +109,9 @@ def local_refinement(s, t, source, target,
                 register_colored_point_cloud_icp(
                 source, target, transformation_init)
 
-    success_local = False
-    if information[5,5] / min(len(source.points),len(target.points)) > 0.3:
-        success_local = True
+    success_local = (
+        information[5, 5] / min(len(source.points), len(target.points)) > 0.3
+    )
     if draw_result:
         draw_registration_result_original_color(
                 source, target, transformation)
@@ -147,9 +145,9 @@ def register_point_cloud(path_dataset, ply_file_names, draw_result = False):
     n_files = len(ply_file_names)
     for s in range(n_files):
         for t in range(s + 1, n_files):
-            print("reading %s ..." % ply_file_names[s])
+            print(f"reading {ply_file_names[s]} ...")
             source = read_point_cloud(ply_file_names[s])
-            print("reading %s ..." % ply_file_names[t])
+            print(f"reading {ply_file_names[t]} ...")
             target = read_point_cloud(ply_file_names[t])
             (source_down, source_fpfh) = preprocess_point_cloud(source)
             (target_down, target_fpfh) = preprocess_point_cloud(target)

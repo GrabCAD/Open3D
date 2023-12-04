@@ -17,7 +17,7 @@ if __name__ == "__main__":
             help="starting ID of fragment")
     args = parser.parse_args()
 
-    fragment_files = get_file_list(args.path_dataset + '/', extension='.ply')
+    fragment_files = get_file_list(f'{args.path_dataset}/', extension='.ply')
     for i in range(args.start_id, len(fragment_files)):
         print(fragment_files[i])
         mesh = read_triangle_mesh(fragment_files[i])

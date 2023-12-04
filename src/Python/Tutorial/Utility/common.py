@@ -20,15 +20,15 @@ n_keyframes_per_n_frame = 5
 #######################
 
 folder_fragment = "/fragments/"
-template_fragment_posegraph = folder_fragment + "fragment_%03d.json"
+template_fragment_posegraph = f"{folder_fragment}fragment_%03d.json"
 template_fragment_posegraph_optimized = folder_fragment + \
         "fragment_optimized_%03d.json"
-template_fragment_mesh = folder_fragment + "fragment_%03d.ply"
+template_fragment_mesh = f"{folder_fragment}fragment_%03d.ply"
 folder_scene = "/scene/"
-template_global_posegraph = folder_scene + "global_registration.json"
+template_global_posegraph = f"{folder_scene}global_registration.json"
 template_global_posegraph_optimized = folder_scene + \
         "global_registration_optimized.json"
-template_global_mesh = folder_scene + "integrated.ply"
+template_global_mesh = f"{folder_scene}integrated.ply"
 
 
 def get_file_list(path, extension=None):
@@ -42,8 +42,8 @@ def get_file_list(path, extension=None):
 
 
 def get_rgbd_file_lists(path_dataset):
-    path_color = path_dataset + "/image/"
-    path_depth = path_dataset + "/depth/"
+    path_color = f"{path_dataset}/image/"
+    path_depth = f"{path_dataset}/depth/"
     color_files = get_file_list(path_color, ".jpg") + \
             get_file_list(path_color, ".png")
     depth_files = get_file_list(path_depth, ".png")

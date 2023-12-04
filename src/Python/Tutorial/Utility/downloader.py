@@ -24,44 +24,43 @@ def get_redwood_dataset():
         # download and unzip dataset
         for name in dataset_names:
             print("==================================")
-            file_downloader("http://redwood-data.org/indoor/data/%s-fragments-ply.zip" % \
-                    name)
-            unzip_data("%s-fragments-ply.zip" % name,
-                    "%s/%s" % (dataset_path, name))
-            os.remove("%s-fragments-ply.zip" % name)
+            file_downloader(
+                f"http://redwood-data.org/indoor/data/{name}-fragments-ply.zip"
+            )
+            unzip_data(f"{name}-fragments-ply.zip", f"{dataset_path}/{name}")
+            os.remove(f"{name}-fragments-ply.zip")
             print("")
 
 
 def file_downloader(url):
     file_name = url.split('/')[-1]
     u = urlopen(url)
-    f = open(file_name, "wb")
-    if pyver == 2:
-        meta = u.info()
-        file_size = int(meta.getheaders("Content-Length")[0])
-    elif pyver == 3:
-        file_size = int(u.getheader("Content-Length"))
-    print("Downloading: %s " % file_name)
+    with open(file_name, "wb") as f:
+        if pyver == 2:
+            meta = u.info()
+            file_size = int(meta.getheaders("Content-Length")[0])
+        elif pyver == 3:
+            file_size = int(u.getheader("Content-Length"))
+        print(f"Downloading: {file_name} ")
 
-    file_size_dl = 0
-    block_sz = 8192
-    progress = 0
-    while True:
-        buffer = u.read(block_sz)
-        if not buffer:
-            break
-        file_size_dl += len(buffer)
-        f.write(buffer)
-        if progress + 10 <= (file_size_dl * 100. / file_size):
-            progress = progress + 10
-            print(" %.1f / %.1f MB (%.0f %%)" % \
-                    (file_size_dl/(1024*1024), file_size/(1024*1024), progress))
-    f.close()
+        file_size_dl = 0
+        block_sz = 8192
+        progress = 0
+        while True:
+            buffer = u.read(block_sz)
+            if not buffer:
+                break
+            file_size_dl += len(buffer)
+            f.write(buffer)
+            if progress + 10 <= (file_size_dl * 100. / file_size):
+                progress = progress + 10
+                print(" %.1f / %.1f MB (%.0f %%)" % \
+                        (file_size_dl/(1024*1024), file_size/(1024*1024), progress))
 
 
 def unzip_data(path_zip, path_extract_to):
-    print("Unzipping %s" % path_zip)
+    print(f"Unzipping {path_zip}")
     zip_ref = zipfile.ZipFile(path_zip, 'r')
     zip_ref.extractall(path_extract_to)
     zip_ref.close()
-    print("Extracted to %s" % path_extract_to)
+    print(f"Extracted to {path_extract_to}")

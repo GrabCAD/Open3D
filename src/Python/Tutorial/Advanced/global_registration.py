@@ -50,24 +50,33 @@ def execute_global_registration(
     print(":: RANSAC registration on downsampled point clouds.")
     print("   Since the downsampling voxel size is %.3f," % voxel_size)
     print("   we use a liberal distance threshold %.3f." % distance_threshold)
-    result = registration_ransac_based_on_feature_matching(
-            source_down, target_down, source_fpfh, target_fpfh,
-            distance_threshold,
-            TransformationEstimationPointToPoint(False), 4,
-            [CorrespondenceCheckerBasedOnEdgeLength(0.9),
-            CorrespondenceCheckerBasedOnDistance(distance_threshold)],
-            RANSACConvergenceCriteria(4000000, 500))
-    return result
+    return registration_ransac_based_on_feature_matching(
+        source_down,
+        target_down,
+        source_fpfh,
+        target_fpfh,
+        distance_threshold,
+        TransformationEstimationPointToPoint(False),
+        4,
+        [
+            CorrespondenceCheckerBasedOnEdgeLength(0.9),
+            CorrespondenceCheckerBasedOnDistance(distance_threshold),
+        ],
+        RANSACConvergenceCriteria(4000000, 500),
+    )
 
 def refine_registration(source, target, source_fpfh, target_fpfh, voxel_size):
     distance_threshold = voxel_size * 0.4
     print(":: Point-to-plane ICP registration is applied on original point")
     print("   clouds to refine the alignment. This time we use a strict")
     print("   distance threshold %.3f." % distance_threshold)
-    result = registration_icp(source, target, distance_threshold,
-            result_ransac.transformation,
-            TransformationEstimationPointToPlane())
-    return result
+    return registration_icp(
+        source,
+        target,
+        distance_threshold,
+        result_ransac.transformation,
+        TransformationEstimationPointToPlane(),
+    )
 
 if __name__ == "__main__":
     voxel_size = 0.05 # means 5cm for the dataset

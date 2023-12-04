@@ -21,13 +21,14 @@ def read_nyu_pgm(filename, byteorder='>'):
             b"(\d+)\s(?:\s*#.*[\r\n])*"
             b"(\d+)\s(?:\s*#.*[\r\n]\s)*)", buffer).groups()
     except AttributeError:
-        raise ValueError("Not a raw PGM file: '%s'" % filename)
-    img = np.frombuffer(buffer,
-        dtype=byteorder+'u2',
-        count=int(width)*int(height),
-        offset=len(header)).reshape((int(height), int(width)))
-    img_out = img.astype('u2')
-    return img_out
+        raise ValueError(f"Not a raw PGM file: '{filename}'")
+    img = np.frombuffer(
+        buffer,
+        dtype=f'{byteorder}u2',
+        count=int(width) * int(height),
+        offset=len(header),
+    ).reshape((int(height), int(width)))
+    return img.astype('u2')
 
 if __name__ == "__main__":
     print("Read NYU dataset")

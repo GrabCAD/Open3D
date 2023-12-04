@@ -5,7 +5,7 @@
 import importlib
 import sys
 
-if sys.platform == "linux" or sys.platform == "linux2":
+if sys.platform in ["linux", "linux2"]:
     from open3d.linux import *
 elif sys.platform == "darwin":
     from open3d.macos import *

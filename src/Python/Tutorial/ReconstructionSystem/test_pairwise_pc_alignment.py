@@ -51,7 +51,7 @@ if __name__ == "__main__":
     parser.add_argument("-path_json", help="reading json file for initial pose")
     args = parser.parse_args()
 
-    ply_file_names = get_file_list(args.path_dataset + "/fragments/", ".ply")
+    ply_file_names = get_file_list(f"{args.path_dataset}/fragments/", ".ply")
     if not args.path_json:
         register_point_cloud_pairwise(args.path_dataset, ply_file_names,
                 args.source_id, args.target_id)
